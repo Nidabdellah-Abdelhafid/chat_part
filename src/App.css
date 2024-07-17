@@ -1,0 +1,141 @@
+.sidebar {
+  width: 410px;
+  height: 93vh;
+  overflow-y: auto;
+  background-color: #ffffff;
+  align-content: center;
+  border-left: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  
+}
+.chat-header{
+  background-color: #c6c6c6;
+}
+.chat-footer{
+  background-color: #c6c6c6;
+
+}
+.chat-window{
+  border-left: 1px solid lightgray;
+  border-bottom: 1px solid lightgray;
+  border-right: 1px solid lightgray;
+  height: 93vh;
+
+}
+
+.chat-body {
+  flex-grow: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #f1ecec69;
+  /* margin-right: 20px; */
+}
+
+.message {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.admin-message {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.user-message {
+  justify-content: flex-end;
+  text-align: left;
+}
+
+.message-sender {
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #000;
+}
+
+.message-text {
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 60%;
+  word-wrap: break-word;
+}
+
+.admin-message .message-text {
+  background-color: #d9bd8c;
+  color: white;
+}
+
+.user-message .message-text {
+  background-color: #6ddc87;
+  color: white;
+}
+
+.selected-user {
+  background-color: rgb(247, 247, 247) !important;
+}
+
+.chat__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid lightgray;
+}
+
+.btnsend {
+  width: 45px;
+  height: 45px;
+  border-radius: 25px;
+  background-color: #36f98d;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10px;
+  border: 0px;
+}
+
+.chat-window-placeholder{
+  width: 100%;
+  border: 1px solid lightgray;
+  justify-content: center;
+  align-items: center;
+}
+
+.background-div {
+  background-image: url('./assets/images/bg-1.jpg'); /* Adjust the path as necessary */
+  background-size: cover;
+  background-position: center;
+  height: 93vh; /* Adjust as needed */
+  width: 100%;   /* Adjust as needed */
+  
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.5);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.background-div {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.image-animation {
+  animation: scaleIn 1s ease-in-out;
+}
+
+.text-animation {
+  animation: fadeIn 2s ease-in-out;
+}
