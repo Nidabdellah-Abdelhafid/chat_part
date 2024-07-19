@@ -14,6 +14,7 @@ import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
 import LazyLoad from 'react-lazyload';
 import { Dialog, DialogContent, DialogActions, Button } from '@mui/material';
+import bgChat from '../assets/images/bgChat.jpg';
 
 const ChatWindow = ({ user }) => {
     const [message, setMessage] = useState([]);
@@ -83,24 +84,23 @@ const ChatWindow = ({ user }) => {
 
     if (!user) {
         return (
-            <div className="chat-window-placeholder background-div">
-                <div style={{ justifyContent: 'center', alignItems: 'center', alignSelf: 'center', padding: 50, textAlign: 'center' }}>
-                    <Image
-                        src={svgImage}
-                        roundedCircle
-                        className="m-2 image-animation"
-                        width="300px"
-                        height="300px"
-                        alt="SVG"
-                    />
-                    <p className="text-animation" style={{ textAlign: 'center', fontSize: 35, fontWeight: '700', color: '#000' }}>
-                        Voyages sur mesure
+            <div
+            className="hero h-90"
+            style={{
+                backgroundImage: `url(${bgChat})`, 
+            }}
+        >
+                <div className="hero-overlay bg-opacity-60"></div>
+                <div className="hero-content text-neutral-content text-center">
+                    <div className="max-w-md">
+                    <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
+                    <p className="mb-5">
+                        Select user to start chatting.
                     </p>
-                    <p className="text-animation" style={{ textAlign: 'center', fontWeight: '700', fontSize: 18, color: '#000' }}>
-                        Select a user to start chatting
-                    </p>
+                    {/* <button className="btn btn-primary">Get Started</button> */}
+                    </div>
                 </div>
-            </div>
+                </div>
         );
     }
 
@@ -178,11 +178,20 @@ const ChatWindow = ({ user }) => {
 
     const renderMessages = () => {
         return filteredMessages.map(message => (
-            <div key={message.id} className={`message ${message?.attributes?.sender?.data?.attributes?.username === 'admin' ? 'user-message' : 'admin-message'}`}>
-                <div className="message-text">
-                    <div className="message-sender">~{message?.attributes?.sender?.data?.attributes?.username}~</div>
-                    <div className="message-content">{message?.attributes?.content}</div>
-                    
+            <div key={message.id} className={`chat mt-4 ${message?.attributes?.sender?.data?.attributes?.username === 'admin' ? 'chat-end' : 'chat-start'}`}>
+                
+                    <div className="chat-image avatar">
+                    <div className="w-10 rounded-full">
+                    {message?.attributes?.sender?.data?.attributes?.username === 'admin' ? <Image src='https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/75/cc/7c/75cc7cf2-516f-b0f4-a8ed-3baccc1abcbf/source/512x512bb.jpg'  alt="Tailwind CSS chat bubble component"/> :<Image src={`${URL_BACKEND}${user.image.url}`}  alt="Tailwind CSS chat bubble component"/> }
+                     
+                    </div>
+                    </div>
+                    <div className="chat-header bg-white">
+                        ~{message?.attributes?.sender?.data?.attributes?.username}~
+                        
+                    </div>
+                    <div className="chat-bubble">
+                    {message?.attributes?.content}
                     {message?.attributes?.document?.data ? (
                         <div className="message-file">
                             {message.attributes.document?.data.attributes.mime.includes('image') ? (
@@ -204,16 +213,17 @@ const ChatWindow = ({ user }) => {
                                 </div>
                             ) : (
                                 <div className="message-document">
-                                    <a href={`${URL_BACKEND}${message.attributes.document?.data.attributes.url}`} target="_blank" rel="noopener noreferrer">
+                                    <a href={`${URL_BACKEND}${message.attributes.document?.data.attributes.url}`} target="_blank" rel="noopener noreferrer" className='text-color-white'>
                                         {message.attributes.document?.data.attributes.name}
                                     </a>
                                 </div>
                             )}
                         </div>
                     ) : null}
-                    <div className="message-timestamp">{formatDateTime(message?.attributes?.createdAt)}</div>
+                    </div>
+                    <div className="chat-footer bg-white">Sent at {formatDateTime(message?.attributes?.createdAt)}</div>
                 </div>
-            </div>
+            
         ));
     };
 
@@ -245,10 +255,17 @@ const ChatWindow = ({ user }) => {
     return (
         <Container className="chat-window">
             <Row className="chat-header">
-                <Col>
-                    <Image src={`${URL_BACKEND}${user.image.url}`} roundedCircle className="m-2" width="60px" height="60px" />
-                    {user.username}
-                </Col>
+                <div className='d-flex mt-2'>
+                    <div className="avatar online">
+                    <div className="w-20 rounded-full">
+                    <Image src={`${URL_BACKEND}${user.image.url}`} />
+                    </div>
+                    </div>
+                    <div className="flex items-center justify-center h-20">
+                        <p className="text-center ml-3 text-xl">{user.username}</p>    
+                    </div>
+                </div>
+                
             </Row>
             <Row className="search-bar">
                 <Col className="search-bar-wrapper">

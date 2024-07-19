@@ -1,6 +1,6 @@
 .sidebar {
   width: 410px;
-  height: 93vh;
+  height: 85vh;
   overflow-y: auto;
   background-color: #ffffff;
   align-content: center;
@@ -19,7 +19,7 @@
   border-left: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   border-right: 1px solid lightgray;
-  height: 93vh;
+  height: 85vh;
 
 }
 
@@ -27,7 +27,7 @@
   flex-grow: 1;
   padding: 10px;
   overflow-y: auto;
-  background-color: #f1ecec69;
+  /* background-color: #f1ecec69; */
   /* margin-right: 20px; */
 }
 

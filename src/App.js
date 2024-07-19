@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'; // Add any custom styles here
 import { URL_BACKEND } from "./components/api.js";
 import axios from 'axios';
+import Navbar from './components/Navbar.js';
 
 const App = () => {
   const [selectedUser, setSelectedUser] = useState(null);
@@ -29,13 +30,13 @@ const App = () => {
       fetchUser();
   },[])
   return (
-    <div  style={{backgroundColor:'#fff'}}>
-      <div className="d-flex m-4">
-            <Sidebar users={userDC} onUserClick={handleUserClick} />
-            <ChatWindow user={selectedUser} />
-          </div>
+    <div  style={{backgroundColor:'#fff',margin:0}}>
+            <Navbar/>
+            <div className="d-flex">
+              <Sidebar users={userDC} onUserClick={handleUserClick} />
+              <ChatWindow user={selectedUser} />
+            </div>
     </div>
-    
   );
 };
 
