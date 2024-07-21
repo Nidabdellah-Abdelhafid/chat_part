@@ -3,16 +3,16 @@ import { Container, Row, Col, Image } from 'react-bootstrap';
 import { URL_BACKEND } from "./api.js";
 import axios from 'axios';
 import InsertEmoticon from '@material-ui/icons/InsertEmoticon';
-import MicIcon from '@material-ui/icons/Mic';
+// import MicIcon from '@material-ui/icons/Mic';
 import { SendOutlined, Search, AttachFile, RotateLeft, RotateRight } from '@material-ui/icons'; // Import AttachFile icon
 import socket from './socket.js';
-import svgImage from '../assets/images/svg.svg';
+// import svgImage from '../assets/images/svg.svg';
 import Picker from '@emoji-mart/react';
 import data from '@emoji-mart/data';
 import './ChatWindow.css';
-import Lightbox from 'react-image-lightbox';
+// import Lightbox from 'react-image-lightbox';
 import 'react-image-lightbox/style.css';
-import LazyLoad from 'react-lazyload';
+// import LazyLoad from 'react-lazyload';
 import { Dialog, DialogContent, DialogActions, Button } from '@mui/material';
 import bgChat from '../assets/images/bgChat.jpg';
 
@@ -26,9 +26,9 @@ const ChatWindow = ({ user }) => {
     const [filePreview, setFilePreview] = useState(null); // State for file preview
     const chatBodyRef = useRef(null);
     const inputRef = createRef();
-    const [showEmojis, setShowEmojis] = useState(false);
-    const [fileId, setFileId] = useState(null);
-    const [zoomed, setZoomed] = useState(false);
+    // const [showEmojis, setShowEmojis] = useState(false);
+    // const [fileId, setFileId] = useState(null);
+    // const [zoomed, setZoomed] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [selectedImage, setSelectedImage] = useState('');
     const [rotationAngles, setRotationAngles] = useState({});
@@ -162,6 +162,7 @@ const ChatWindow = ({ user }) => {
     const handleZoomOut = () => {
         setSelectedImage('');
         setIsOpen(false);
+        setRotationAngles({});
     };
 
     const handleRotate = (url, direction) => {
