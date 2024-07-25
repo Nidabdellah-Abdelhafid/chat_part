@@ -286,69 +286,84 @@ const ChatWindow = ({ user }) => {
                 </Col>
             </Row>
             <Dialog open={isOpen} onClose={handleZoomOut}>
-                <DialogContent>
-                    <img 
-                        src={selectedImage} 
-                        alt="Selected" 
-                        style={{
-                            width: 'auto', 
-                            maxWidth: '100%', 
-                            height: 'auto', 
-                            maxHeight: '75vh', 
-                            transform: `rotate(${rotationAngles[selectedImage] || 0}deg)`
-                        }}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={() => window.open(selectedImage, '_blank')}>Download</Button>
-                    <Button onClick={() => handleRotate(selectedImage, 90)}><RotateLeft /></Button>
-                    <Button onClick={() => handleRotate(selectedImage, -90)}><RotateRight /></Button>
-                    <Button onClick={handleZoomOut}>Close</Button>
-                </DialogActions>
-            </Dialog>
-            <div className="chat__footer">
-                <InsertEmoticon onClick={handleShowEmojis} className="file-emoji-wrapper" />
+  <DialogContent>
+    <div className="flex justify-center items-center">
+      <img
+        src={selectedImage}
+        alt="Selected"
+        className="max-w-full max-h-[75vh] transform transition-transform"
+        style={{ transform: `rotate(${rotationAngles[selectedImage] || 0}deg)` }}
+      />
+    </div>
+  </DialogContent>
+  <DialogActions className="flex justify-between">
+    <Button
+      onClick={() => window.open(selectedImage, '_blank')}
+      className="bg-blue-500 hover:bg-blue-600 text-black rounded-md py-2 px-4"
+    >
+      Download
+    </Button>
+    <Button
+      onClick={() => handleRotate(selectedImage, 90)}
+      className="bg-gray-500 hover:bg-gray-600 text-black rounded-md py-2 px-4"
+    >
+      <RotateLeft />
+    </Button>
+    <Button
+      onClick={() => handleRotate(selectedImage, -90)}
+      className="bg-gray-500 hover:bg-gray-600 text-black rounded-md py-2 px-4"
+    >
+      <RotateRight />
+    </Button>
+    <Button
+      onClick={handleZoomOut}
+      className="bg-red-500 hover:bg-red-600 text-black rounded-md py-2 px-4"
+    >
+      Close
+    </Button>
+  </DialogActions>
+</Dialog>
+
+            <div className="chat__footer relative flex items-center p-4 bg-white shadow-md">
+                <InsertEmoticon onClick={handleShowEmojis} className="file-emoji-wrapper cursor-pointer" />
                 {showEmojiPicker && 
-                <div style={{ position: 'absolute', top: 160 }}>
-                    <Picker data={data} 
+                <div className="absolute bottom-20 left-0">
+                    <Picker 
+                        data={data} 
                         onEmojiSelect={onEmojiClick} 
-                        emojiSize={20}
+                        emojiSize={20} 
                     />
                 </div>
                 }
-                <Row>
-                    <Col className="send-bar-wrapper">
-                        <input
-                            value={messagea}
-                            onChange={(e) => setMessagea(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            placeholder="Type a message"
-                            type="text"
-                            className='send-input'
-                            style={{ width: '138vh' }}
-                            ref={inputRef}
-                            onFocus={handleFocus}
-                        />
-                    </Col>
-                    <Col className="file-upload-wrapper">
-                        <input
-                            type="file"
-                            id="file-upload"
-                            onChange={handleFileChange}
-                            className="file-input"
-                            style={{ display: 'none' }}
-                        />
-                        <label htmlFor="file-upload">
-                            <AttachFile style={{ cursor: 'pointer' }} />
-                        </label>
-                        
-                    </Col>
-                    <button onClick={sendMessage} type="submit" className="btnsend">
-                        <SendOutlined />
-                    </button>
-                </Row>
-                
+                <div className="flex flex-grow items-center">
+                    <input
+                        value={messagea}
+                        onChange={(e) => setMessagea(e.target.value)}
+                        onKeyPress={handleKeyPress}
+                        placeholder="Type a message"
+                        type="text"
+                        className="send-input flex-grow border border-gray-300 rounded-3xl px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-300"
+                        ref={inputRef}
+                        onFocus={handleFocus}
+                    />
+                </div>
+                <div className="flex items-center ml-2">
+                    <input
+                        type="file"
+                        id="file-upload"
+                        onChange={handleFileChange}
+                        className="file-input hidden"
+                    />
+                    <label htmlFor="file-upload" className="cursor-pointer">
+                        <AttachFile />
+                    </label>
+                </div>
+                <button onClick={sendMessage} type="submit" className="btnsend ml-2 bg-blue-500 text-white p-2 rounded-md focus:outline-none hover:bg-blue-600">
+                    <SendOutlined />
+                </button>
             </div>
+
+
             {filePreview && (
                 <div className="file-preview">
                     <Image src={filePreview} alt="Preview" width="60" height="auto" rounded />

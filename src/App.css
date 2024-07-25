@@ -19,7 +19,7 @@
   border-left: 1px solid lightgray;
   border-bottom: 1px solid lightgray;
   border-right: 1px solid lightgray;
-  height: 85vh;
+  height: 90vh;
 
 }
 
@@ -138,4 +138,8 @@
 
 .text-animation {
   animation: fadeIn 2s ease-in-out;
+}
+
+.itemuser{
+  background-color: #d0d0d0;
 }

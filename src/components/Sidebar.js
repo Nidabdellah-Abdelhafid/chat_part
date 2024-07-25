@@ -12,55 +12,42 @@ const Sidebar = ({ users, onUserClick }) => {
 
   const renderUserListItem = (user) => (
     <ListGroup.Item
-        key={user.id}
-        onClick={() => handleUserClick(user)}
-        className={selectedUserId === user.id ? 'selected-user' : ''}
+      key={user.id}
+      onClick={() => handleUserClick(user)}
+      className={`cursor-pointer p-2 ${selectedUserId === user.id ? 'itemuser' : 'hover:bg-gray-300'}`}
     >
-    <div className="flex w-full flex-col">
-      <div className="card bg-base-300  rounded-box grid h-20 place-items p-2">
-      
-            {user.image && user.image.url ? (
-                
-              <div className='d-flex'>
-                    <div className="avatar online">
-                    <div className="w-20 rounded-full">
-                    <Image src={`${URL_BACKEND}${user.image.url}`} />
-                    </div>
-                    </div>
-                    <div className="flex items-center justify-center h-20">
-                        <p className="text-center ml-3 text-xl">{user.username}</p>    
-                    </div>
-                </div>
-            ) : (
-                <div className="avatar online">
-                <div className="w-20 rounded-full">
-                  <Image src='https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/75/cc/7c/75cc7cf2-516f-b0f4-a8ed-3baccc1abcbf/source/512x512bb.jpg' />
-                </div>
-              </div>
-            )}
-            {/* <p>{user?.username}</p> */}
+      <div className="flex items-center space-x-4">
+        <div className="avatar">
+          <div className="w-16 h-16 rounded-full overflow-hidden">
+            <Image
+              src={user.image && user.image.url ? `${URL_BACKEND}${user.image.url}` : 'https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/75/cc/7c/75cc7cf2-516f-b0f4-a8ed-3baccc1abcbf/source/512x512bb.jpg'}
+              alt={user.username}
+            />
+          </div>
         </div>
-      
-      {/* <div className="divider"></div> */}
-    </div>
-        
+        <div>
+          <p className="text-lg font-medium">{user.username}</p>
+        </div>
+      </div>
     </ListGroup.Item>
-);
+  );
 
   return (
-    <ListGroup className="sidebar" variant="flush">
-      <div className='d-flex  mt-2 ml-5'>
-                    <div className="avatar">
-                    <div className="h-14 w-14 rounded-full mt-2">
-                    <Image src="https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/75/cc/7c/75cc7cf2-516f-b0f4-a8ed-3baccc1abcbf/source/512x512bb.jpg"                    />
-                    </div>
-                    </div>
-                    <div className="flex items-center justify-center h-20">
-                        <p className="text-center ml-3 text-2xl">Voyages sur mesure</p>    
-                    </div>
-                </div>
-      {users.map((user) => renderUserListItem(user))}
-    </ListGroup>
+    <div className="w-full md:w-1/4 bg-gray-100 border-r">
+      <div className="flex items-center p-4">
+        <div className="avatar">
+          <div className="w-14 h-14 rounded-full overflow-hidden">
+            <Image src="https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/75/cc/7c/75cc7cf2-516f-b0f4-a8ed-3baccc1abcbf/source/512x512bb.jpg" alt="Logo" />
+          </div>
+        </div>
+        <div className="ml-4">
+          <p className="text-xl font-semibold">Voyages sur mesure</p>
+        </div>
+      </div>
+      <ListGroup className="overflow-y-auto">
+        {users.map((user) => renderUserListItem(user))}
+      </ListGroup>
+    </div>
   );
 };
 
