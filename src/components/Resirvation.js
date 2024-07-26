@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { URL_BACKEND } from "./api.js";
 import { Image } from 'react-bootstrap';
-import { SkipNext, SkipPrevious, Visibility } from '@material-ui/icons';
+import { NavigateBefore, NavigateNext, SkipNext, SkipPrevious, Visibility } from '@material-ui/icons';
 
 function Reservation() {
   const [reservation, setReservation] = useState(null);
@@ -18,7 +18,8 @@ function Reservation() {
   const [currentPageValide, setCurrentPageValide] = useState(1);
   const [currentPageRefuse, setCurrentPageRefuse] = useState(1);
   const itemsPerPage = 5; // Number of items per page
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedReservation, setSelectedReservation] = useState(null);
   const fetchUser = async () => {
     try {
       const response = await axios.get(`${URL_BACKEND}/api/users?populate=*&pagination[limit]=-1`);
@@ -138,7 +139,15 @@ function Reservation() {
                 <td className="border px-4 py-2">{i.attributes.destination}</td>
                 <td className="border px-4 py-2">{i.attributes?.offre?.data.attributes.label}</td>
                 <td className="border px-4 py-2">
-                  <button className="btn btn-sm mr-2">details <Visibility /></button>
+                <button
+                    className="btn btn-sm mr-2"
+                    onClick={() => {
+                    setSelectedReservation(i);
+                    setIsModalOpen(true);
+                    }}
+                >
+                    details <Visibility />
+                </button>
                   {i.attributes.etat === "enAttente" && (
                     <button className="btn btn-sm btn-info" onClick={() => paasToenCours(i.id)}>En Cours</button>
                   )}
@@ -160,7 +169,8 @@ function Reservation() {
             className="btn btn-sm "
           >
             
-            <SkipPrevious/>
+            {/* <NavigatePrev/> */}
+            <NavigateBefore/>
           </button>
           <span className="mx-2">{currentPage}</span>
           <button
@@ -168,15 +178,98 @@ function Reservation() {
             className="btn btn-sm "
           >
             
-            <SkipNext/>
+            {/* <SkipNext/> */}
+            <NavigateNext/>
           </button>
         </div>
       </>
     );
   };
 
+  const Modal = ({ isOpen, onClose, reservation }) => {
+    if (!isOpen || !reservation) return null;
+    console.log(reservation);
+    return (
+      <div className="fixed inset-0 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black opacity-50" onClick={onClose}></div>
+        
+        <div className="bg-white p-2 rounded-lg shadow-lg z-10 w-auto flex">
+          <div className="card card-compact bg-base-100 w-96 shadow-xl">
+            <figure>
+                <img
+                src={reservation.attributes.offre?.data.attributes.image}
+                alt="Shoes" />
+            </figure>
+            <div className="card-body">
+                <h2 className="card-titl text-lg">{reservation.attributes.offre?.data.attributes.label}</h2>
+                <p> {reservation.attributes.destination}</p>
+                <h2 className="card-titl text-lg">Etat de la demande</h2>
+                <p> {reservation.attributes.etat}</p>
+            </div>
+        </div>
+        <div className="card card-compact bg-base-100 w-auto shadow-xl ml-2">
+            <div className="card-body">
+                <h2 className="card-title text-lg">Nombre de voyageurs adultes</h2>
+                <p> {reservation.attributes.nbr_voyageurs_adultes}</p>
+                <h2 className="card-title text-lg">Nombre d’enfants</h2>
+                <p> {reservation.attributes.nbr_voyageurs_enfants}</p>
+                <h2 className="card-title text-lg">Pourquoi voyagez-vous ?</h2>
+                <p> {reservation.attributes.pourquoi_voyagez_vous}</p>
+                <h2 className="card-title text-lg">Quand souhaitez-vous partir ?</h2>
+                <p> {reservation.attributes.date_partir}</p>
+                <h2 className="card-title text-lg">Mes dates sont fixes</h2>
+                <p> {reservation.attributes.date_fixe.toString()}</p>
+                <h2 className="card-title text-lg">Quelle est la durée de votre séjour ?</h2>
+                <p> {reservation.attributes.duree}</p>
+                <h2 className="card-title text-lg">durée de mon voyage est non modifiable</h2>
+                <p> {reservation.attributes.duree_modifiable.toString()}</p>
+                
+            </div>
+        </div>
+        <div className="card card-compact bg-base-100 w-auto shadow-xl ml-2">
+            <div className="card-body">
+                <h2 className="card-title text-lg">Vous êtes intéressés par quelle catégorie d’hébergement ?</h2>
+                <p> {reservation.attributes.categorie_hebergement}</p>
+                <h2 className="card-title  text-lg">Choix de cabine</h2>
+                <p> {reservation.attributes.cabine}</p>
+                <h2 className="card-title text-lg">Quelle expérience vous souhaitez vivre ?</h2>
+                <p> {reservation.attributes.experience_souhaitez}</p>
+                <h2 className="card-title text-lg"></h2>
+                <p></p>
+                <h2 className="card-title text-lg"></h2>
+                <p></p>
+                <h2 className="card-title text-lg"></h2>
+                <p></p>
+                <div className="flex w-52 flex-col gap-4">
+                <div className="flex items-center gap-4">
+                    <div className="skeleton h-24 w-20 shrink-0  mask mask-squircle rounded-full">
+                    {imageUser(reservation.attributes?.user?.data?.id)}
+                    
+                    </div>
+                    <div className="flex flex-col gap-4">
+                    <div className="skeleton w-auto p-2">{reservation.attributes?.user?.data?.attributes.username}</div>
+                    <div className="skeleton w-auto p-2">{reservation.attributes?.user?.data?.attributes.email}</div>
+                    </div>
+                </div>
+                <div className="skeleton h-32 w-full">
+                    <p className='text-sm p-3 font-medium'>Pays : {reservation.attributes?.user?.data?.attributes.pays}</p>
+                    <p className='text-sm p-3 font-medium'>Telephone : 0{reservation.attributes?.user?.data?.attributes.telephone}</p>
+                </div>
+                </div>
+                
+            </div>
+        </div>
+          
+        </div>
+        <button className="btn btn-sm btn-circle btn-ghost absolute right-20 top-5 bg-white" onClick={onClose}>✕</button>
+      </div>
+    );
+  };
+  
+
   return (
     <div className="m-5 p-5">
+        <h2 className="mb-4">Traitement de la demande du voyage</h2>
       <div role="tablist" className="tabs tabs-lifted">
         <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="En attente" defaultChecked />
         <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
@@ -206,6 +299,11 @@ function Reservation() {
           </div>
         </div>
       </div>
+      <Modal
+      isOpen={isModalOpen}
+      onClose={() => setIsModalOpen(false)}
+      reservation={selectedReservation}
+    />
     </div>
   );
 }
