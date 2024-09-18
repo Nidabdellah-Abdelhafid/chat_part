@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { URL_BACKEND } from "./api.js";
 import { Image } from 'react-bootstrap';
 import { NavigateBefore, NavigateNext, SkipNext, SkipPrevious, Visibility } from '@material-ui/icons';
+import { BiShare } from "react-icons/bi";
 
 function Reservation() {
   const [reservation, setReservation] = useState(null);
@@ -99,6 +100,28 @@ function Reservation() {
     }
   };
 
+  const preToEnattente = async (id) => {
+    try {
+      await axios.put(`${URL_BACKEND}/api/reservations/${id}`, {
+        data: { etat: "enAttente" },
+      });
+      fetchReservation();
+    } catch (error) {
+      console.error('Error updating item:', error);
+    }
+  };
+
+  const preToEncours = async (id) => {
+    try {
+      await axios.put(`${URL_BACKEND}/api/reservations/${id}`, {
+        data: { etat: "enCours" },
+      });
+      fetchReservation();
+    } catch (error) {
+      console.error('Error updating item:', error);
+    }
+  };
+
   // Helper function for rendering a table with pagination
   const renderTable = (reservations, currentPage, setCurrentPage) => {
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -155,7 +178,16 @@ function Reservation() {
                     <>
                       <button className="btn btn-sm mr-2 btn-success" onClick={() => paasToValid(i.id)}>Validé</button>
                       <button className="btn btn-sm btn-danger" onClick={() => paasToRefuse(i.id)}>Refusé</button>
+                      <div className="lg:tooltip" data-tip="Annuler">
+                        <button className="btn btn-sm ml-1" onClick={() => preToEnattente(i.id)}><BiShare /></button>
+                      </div>
+
                     </>
+                  )}
+                  {(i.attributes.etat === "valide" || i.attributes.etat === "refuse") && (
+                    <div className="lg:tooltip" data-tip="Annuler">
+                        <button className="btn btn-sm" onClick={() => preToEncours(i.id)}><BiShare /></button>
+                      </div>
                   )}
                 </td>
               </tr>
